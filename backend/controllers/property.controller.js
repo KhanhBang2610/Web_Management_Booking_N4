@@ -35,68 +35,29 @@ const getAllProperties = async (req, res) => {
 };
 
 // 2. Tìm kiếm và Lọc khách sạn (Tính năng quan trọng nhất)
-const searchProperties = async (req, res) => {
+const PropertyModel = require('../models/property.model');
+
+const searchProperties = async (req, res, next) => {
     try {
-        const { location_id, min_price, max_price, star_rating, keyword } = req.query;
+        // Gom tất cả query người dùng gửi lên thành 1 object
+        const filters = {
+            location_id: req.query.location_id,
+            min_price: req.query.min_price,
+            max_price: req.query.max_price,
+            star_rating: req.query.star_rating,
+            keyword: req.query.keyword
+        };
 
-        // Bắt đầu xây dựng câu lệnh SQL động
-        // Dùng 1=1 để dễ dàng nối thêm các điều kiện AND ở phía sau
-        let query = `
-            SELECT p.id, p.name, p.address, p.star_rating, p.description, l.name as location_name
-            FROM properties p
-            JOIN locations l ON p.location_id = l.id
-            WHERE 1=1
-        `;
-        const queryParams = [];
-
-        // Lọc theo keyword (tìm tên khách sạn)
-        if (keyword) {
-            query += ' AND p.name LIKE ?';
-            queryParams.push(`%${keyword}%`);
-        }
-
-        // Lọc theo khu vực (Vũng Tàu, Quảng Ninh...)
-        if (location_id) {
-            query += ' AND p.location_id = ?';
-            queryParams.push(location_id);
-        }
-
-        // Lọc theo số sao
-        if (star_rating) {
-            query += ' AND p.star_rating = ?';
-            queryParams.push(star_rating);
-        }
-
-        /* Lọc theo khoảng giá:
-           Thường giá sẽ nằm ở bảng rooms (giá thấp nhất của khách sạn đó).
-           Đây là một câu Subquery (truy vấn lồng) để tìm các khách sạn có phòng nằm trong tầm giá.
-        */
-        if (min_price || max_price) {
-            query += ` AND p.id IN (
-                SELECT property_id FROM rooms WHERE 1=1
-            `;
-            if (min_price) {
-                query += ' AND base_price >= ?';
-                queryParams.push(min_price);
-            }
-            if (max_price) {
-                query += ' AND base_price <= ?';
-                queryParams.push(max_price);
-            }
-            query += ')'; // Đóng ngoặc cho subquery
-        }
-
-        // Thực thi câu lệnh SQL đã được build
-        const [results] = await db.query(query, queryParams);
+        // Đẩy xuống Model xử lý
+        const results = await PropertyModel.search(filters);
 
         res.status(200).json({
-            message: 'Tìm kiếm thành công',
+            success: true,
             totalResults: results.length,
             data: results
         });
     } catch (error) {
-        console.error('Lỗi API searchProperties:', error);
-        res.status(500).json({ message: 'Lỗi server khi tìm kiếm khách sạn.' });
+        next(error); // Đẩy lỗi cho error.middleware.js xử lý
     }
 };
 

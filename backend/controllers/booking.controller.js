@@ -1,6 +1,7 @@
 // Xử lý luồng đặt phòng, tính tiền, kiểm tra phòng trống.
 
 const db = require('../config/db.config');
+const BookingModel = require('../models/booking.model');
 
 // Hàm bổ trợ: Tính số ngày giữa 2 mốc thời gian
 const calculateNights = (checkIn, checkOut) => {
@@ -115,28 +116,16 @@ const createBooking = async (req, res) => {
 };
 
 // 3. Lấy lịch sử đặt phòng của người dùng (Get User Bookings)
+
 const getUserBookings = async (req, res) => {
     try {
-        const user_id = req.user.id; // Lấy từ token đăng nhập
-
-        const [bookings] = await db.query(
-            `SELECT b.id as booking_id, b.check_in_date, b.check_out_date, b.total_price, b.status, 
-                    r.room_type, p.name as property_name, p.address 
-             FROM bookings b
-             JOIN rooms r ON b.room_id = r.id
-             JOIN properties p ON r.property_id = p.id
-             WHERE b.user_id = ?
-             ORDER BY b.check_in_date DESC`,
-            [user_id]
-        );
-
-        res.status(200).json({
-            message: 'Lấy lịch sử thành công',
-            data: bookings
-        });
+        const userId = req.user.id;
+        // Gọi thẳng từ Model ra để tách biệt rõ ràng giữa logic xử lý (Controller) và logic truy vấn DB (Model)
+        const history = await BookingModel.findByUserId(userId);
+        
+        res.status(200).json({ success: true, data: history });
     } catch (error) {
-        console.error('Lỗi API getUserBookings:', error);
-        res.status(500).json({ message: 'Lỗi server khi lấy lịch sử đặt phòng.' });
+        res.status(500).json({ message: 'Lỗi lấy lịch sử' });
     }
 };
 
