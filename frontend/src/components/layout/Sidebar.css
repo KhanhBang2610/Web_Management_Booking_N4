@@ -1,0 +1,118 @@
+/* Sidebar Styles */
+.sidebar {
+  background: white;
+  border-right: 1px solid #eee;
+  padding: 20px;
+  height: 100vh;
+  overflow-y: auto;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 250px;
+}
+
+.sidebar-header {
+  margin-bottom: 30px;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #eee;
+}
+
+.sidebar-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #333;
+  margin: 0;
+}
+
+.sidebar-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.sidebar-menu-item {
+  margin-bottom: 10px;
+}
+
+.sidebar-menu-link {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 15px;
+  color: #666;
+  text-decoration: none;
+  border-radius: 6px;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.sidebar-menu-link:hover,
+.sidebar-menu-link.active {
+  background: #FF6B6B;
+  color: white;
+}
+
+.sidebar-menu-icon {
+  font-size: 18px;
+}
+
+.sidebar-divider {
+  height: 1px;
+  background: #eee;
+  margin: 20px 0;
+}
+
+.sidebar-footer {
+  margin-top: 40px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.sidebar-user {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: #f5f5f5;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.sidebar-user-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.sidebar-user-info {
+  flex: 1;
+}
+
+.sidebar-user-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin: 0;
+}
+
+.sidebar-user-role {
+  font-size: 12px;
+  color: #999;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .sidebar {
+    display: none;
+    width: 0;
+    position: fixed;
+    z-index: 100;
+    transition: all 0.3s ease;
+  }
+
+  .sidebar.active {
+    display: block;
+    width: 250px;
+  }
+}

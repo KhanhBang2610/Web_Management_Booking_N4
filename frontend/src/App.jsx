@@ -1,7 +1,7 @@
 // Cấu hình Router (gắn các Pages vào các đường dẫn URL).
 
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import './App.css';
 
 // Context Providers
@@ -14,13 +14,13 @@ import SearchResult from './pages/SearchResult';
 import PropertyDetail from './pages/PropertyDetail';
 import Checkout from './pages/Checkout';
 import HostDashboard from './pages/HostDashboard';
+import BookingConfirmation from './pages/BookingConfirmation';
 
-// Auth Pages (sẽ tạo sau)
+// Auth Pages
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 
 // Các component trang khác
-// import BookingConfirmation from './pages/BookingConfirmation';
 // import UserProfile from './pages/UserProfile';
 
 /**
@@ -118,7 +118,6 @@ const App = () => {
               />
 
               {/* TODO: Tạo các page khác */}
-              {/* 
               <Route 
                 path="/booking-confirmation" 
                 element={
@@ -128,6 +127,8 @@ const App = () => {
                 } 
               />
 
+              {/* TODO: Create these pages in the future */}
+              {/**
               <Route 
                 path="/profile" 
                 element={
@@ -154,7 +155,7 @@ const App = () => {
                   </ProtectedRoute>
                 } 
               />
-              */}
+              **/}
 
               {/* 404 - Not Found */}
               <Route path="*" element={<NotFound />} />
@@ -183,8 +184,5 @@ const NotFound = () => {
     </div>
   );
 };
-
-// Fix: Import useNavigate
-import { useNavigate } from 'react-router-dom';
 
 export default App;
