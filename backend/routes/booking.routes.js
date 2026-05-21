@@ -3,17 +3,13 @@
 const express = require('express');
 const router = express.Router();
 const bookingController = require('../controllers/booking.controller');
+const { verifyToken } = require('../middlewares/auth.middleware');
 
-// Import middleware vừa tạo
-const { verifyToken, authorizeRoles } = require('../middlewares/auth.middleware');
+// Khách hàng vãng lai có thể check xem phòng còn trống không (Không cần token)
+router.post('/check-availability', bookingController.checkAvailability);
 
-// Phải đăng nhập mới được đặt phòng (Ai đăng nhập cũng được)
+// BẮT BUỘC ĐĂNG NHẬP: Đi qua cổng bảo vệ verifyToken
 router.post('/create', verifyToken, bookingController.createBooking);
-
-// Lấy lịch sử đặt phòng của user đang đăng nhập
 router.get('/my-bookings', verifyToken, bookingController.getUserBookings);
-
-// (Ví dụ thêm) Chỉ có Host và Admin mới được phép tạo khách sạn mới
-// router.post('/properties', verifyToken, authorizeRoles('Host', 'Admin'), propertyController.createProperty);
 
 module.exports = router;
