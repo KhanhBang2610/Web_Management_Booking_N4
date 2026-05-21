@@ -93,5 +93,10 @@ Dự án Website quản lý đặt phòng khách sạn, căn hộ ở các thàn
 
 ## 🚀 Hướng dẫn cài đặt (Local Setup)
 ```
-update sau
+"update dần"
+Bổ sung thư viện:
+- Backend:   npm init -y
+- Frontend:  npm install express mysql2 dotenv jsonwebtoken bcrypt multer cors
+Chạy web:
+- Backend:   node server.js
 ```

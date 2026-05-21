@@ -1,0 +1,149 @@
+/* Checkout Page Styles */
+.checkout-page {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 30px 20px;
+}
+
+.checkout-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 30px;
+}
+
+.checkout-form-card,
+.checkout-summary-card {
+  background: white;
+  border: 1px solid #eee;
+  border-radius: 16px;
+  padding: 25px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.05);
+}
+
+.checkout-form-card h2,
+.checkout-summary-card h2 {
+  font-size: 20px;
+  font-weight: 700;
+  margin: 0 0 20px 0;
+  color: #333;
+}
+
+.checkout-section {
+  margin-bottom: 25px;
+}
+
+.checkout-section:last-child {
+  margin-bottom: 0;
+}
+
+.checkout-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.checkout-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #555;
+}
+
+.checkout-field input,
+.checkout-field select,
+.checkout-field textarea {
+  padding: 12px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.3s ease;
+}
+
+.checkout-field input:focus,
+.checkout-field select:focus,
+.checkout-field textarea:focus {
+  outline: none;
+  border-color: #FF6B6B;
+  box-shadow: 0 0 0 3px rgba(255, 107, 107, 0.1);
+}
+
+.checkout-field textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.summary-row strong {
+  color: #333;
+}
+
+.summary-total {
+  font-size: 24px;
+  font-weight: 700;
+  color: #FF6B6B;
+}
+
+.checkout-note {
+  font-size: 13px;
+  color: #777;
+  margin-top: 15px;
+}
+
+.order-button {
+  width: 100%;
+  padding: 15px 20px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #FF6B6B 0%, #FF5252 100%);
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.order-button:hover {
+  box-shadow: 0 10px 25px rgba(255, 107, 107, 0.3);
+  transform: translateY(-2px);
+}
+
+.order-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 920px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-summary-card {
+    order: -1;
+  }
+}
+
+@media (max-width: 576px) {
+  .checkout-page {
+    padding: 20px 16px;
+  }
+
+  .summary-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
