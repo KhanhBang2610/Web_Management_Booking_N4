@@ -1,0 +1,163 @@
+@model Web_Management_Booking_N4.Models.User
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Ocean Luxury Hotel</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --ocean-blue: #0096c7;
+            --sunny-sky: #48cae4;
+            --deep-sea: #03045e;
+        }
+
+        body {
+            /* Hình nền đồng bộ bãi biển nhiệt đới ngập nắng mát mắt */
+            background: url('https://images.unsplash.com/photo-1506929562872-bb421503ef21?q=80&w=2068&auto=format&fit=crop') center/cover no-repeat fixed;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow: hidden;
+        }
+
+        .ocean-container {
+            display: flex;
+            width: 1100px;
+            height: 640px;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+            overflow: hidden;
+            animation: fadeInSlide 0.6s ease-out;
+        }
+
+        .form-side {
+            flex: 1.2;
+            padding: 45px 60px;
+            background: rgba(255, 255, 255, 0.96);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .image-side {
+            flex: 1;
+            /* Đổi từ ảnh căn hộ sang ảnh khách sạn/resort biển cực đẹp */
+            background: url('https://images.unsplash.com/photo-1571896349842-33c89424de2d?q=80&w=2080&auto=format&fit=crop') center/cover;
+            position: relative;
+        }
+
+        .image-overlay {
+            position: absolute;
+            top: 40px;
+            right: 40px;
+            text-align: right;
+            color: white;
+            text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+        }
+
+        .ocean-input {
+            border-radius: 12px;
+            border: 2px solid #e2e8f0;
+            padding: 11px 15px;
+            transition: 0.3s;
+        }
+
+        .ocean-input:focus {
+            border-color: var(--ocean-blue);
+            box-shadow: 0 0 0 4px rgba(0, 150, 199, 0.15);
+        }
+
+        .btn-ocean {
+            background: linear-gradient(135deg, var(--ocean-blue), var(--deep-sea));
+            color: white;
+            border: none;
+            border-radius: 12px;
+            padding: 14px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            transition: 0.3s;
+        }
+
+        .btn-ocean:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 150, 199, 0.3);
+            color: white;
+        }
+
+        .ocean-link {
+            color: var(--ocean-blue);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .ocean-link:hover {
+            color: var(--deep-sea);
+        }
+
+        @@keyframes fadeInSlide {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <div class="ocean-container">
+        <div class="form-side">
+            <div class="mb-4">
+                <h3 class="fw-bold text-dark mb-1">ĐĂNG KÝ QUẢN TRỊ</h3>
+                <p class="text-muted small">Tham gia hệ thống quản lý khách sạn ven biển chuyên nghiệp.</p>
+            </div>
+
+            @if (!ViewData.ModelState.IsValid)
+            {
+                <div class="alert alert-danger border-0 p-2 mb-3">
+                    <div asp-validation-summary="All" class="text-danger list-unstyled m-0 small"></div>
+                </div>
+            }
+
+            <form asp-action="Register" method="post">
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-secondary">Họ tên quản lý</label>
+                    <input type="text" asp-for="FullName" class="form-control ocean-input" placeholder="Nguyễn Văn A" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-secondary">Email hệ thống</label>
+                    <input type="email" asp-for="Email" class="form-control ocean-input" placeholder="admin@ocean.com" required>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label small fw-bold text-secondary">Số điện thoại</label>
+                    <input type="tel" asp-for="Phone" class="form-control ocean-input" placeholder="090xxxxxxxx">
+                </div>
+                <div class="mb-4">
+                    <label class="form-label small fw-bold text-secondary">Mật khẩu bảo mật</label>
+                    <input type="password" asp-for="PasswordHash" class="form-control ocean-input" placeholder="••••••••" required>
+                </div>
+
+                <button type="submit" class="btn btn-ocean w-100 mb-3 shadow-sm">KHỞI TẠO TÀI KHOẢN ADMIN</button>
+                
+                <div class="text-center">
+                    <span class="small text-muted">Đã có quyền Admin? <a asp-action="Login" class="ocean-link">Đăng nhập ngay</a></span>
+                </div>
+            </form>
+        </div>
+
+        <div class="image-side">
+            <div class="image-overlay">
+                <h1 class="fw-bold m-0">Luxury Hotel</h1>
+                <p class="lead opacity-90 m-0">Giải pháp vận hành tối ưu <br>cho chuỗi nghỉ dưỡng biển.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

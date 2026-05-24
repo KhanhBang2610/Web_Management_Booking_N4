@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Web_Management_Booking_N4.props" />
+</Project>
