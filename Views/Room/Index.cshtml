@@ -1,0 +1,117 @@
+@model IEnumerable<Web_Management_Booking_N4.Models.Room>
+
+@{
+    ViewData["Title"] = "Quản Lý Loại Phòng";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .page-header { border-bottom: 2px dashed #caf0f8; padding-bottom: 15px; margin-bottom: 30px; }
+    .btn-ocean { background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%); color: white; border: none; padding: 10px 20px; border-radius: 10px; font-weight: 500; transition: all 0.3s; }
+    .btn-ocean:hover { background: linear-gradient(135deg, #03045e 0%, #0077b6 100%); color: white; }
+    .table-responsive { background: white; border-radius: 16px; padding: 15px; }
+    .ocean-table th { background-color: #f1f5f9 !important; color: #03045e !important; font-weight: 600; padding: 15px 12px; }
+    .ocean-table td { padding: 15px 12px; vertical-align: middle; color: #334155; }
+    .badge-hotel { background-color: #f0fdf4; color: #166534; padding: 4px 8px; border-radius: 6px; font-size: 12px; font-weight: 600; border: 1px solid #bbf7d0; }
+    .badge-amenity { background-color: #e0f2fe; color: #0369a1; padding: 3px 8px; border-radius: 4px; font-size: 12px; margin-right: 4px; display: inline-block; margin-bottom: 4px; }
+    .price-text { color: #0284c7; font-weight: 700; }
+</style>
+
+<div class="page-header d-flex justify-content-between align-items-center">
+    <div>
+        <h2 class="fw-bold m-0" style="color: #0077b6 !important;"><i class="fas fa-bed me-2"></i>Cấu Hình Loại Phòng</h2>
+        <p class="text-muted m-0 small">Thiết lập định mức phòng, giá cả và tiện ích điều hòa cho từng cơ sở lưu trú.</p>
+    </div>
+    <a asp-action="Create" class="btn btn-ocean text-decoration-none">
+        <i class="fas fa-plus-circle me-2"></i>Thêm Loại Phòng Mới
+    </a>
+</div>
+
+@if (TempData["Success"] != null)
+{
+    <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert" style="border-radius: 12px; background-color: #e8f5e9; color: #2e7d32;">
+        <i class="fas fa-check-circle me-2"></i> @TempData["Success"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+}
+
+<div class="table-responsive shadow-sm">
+    <table class="table ocean-table table-hover align-middle">
+        <thead>
+            <tr>
+                <th style="width: 60px;" class="text-center">STT</th>
+                <th style="width: 200px;">Thuộc Khách Sạn</th>
+                <th style="width: 250px;">Tên / Loại Phòng</th>
+                <th style="width: 130px;" class="text-end">Giá/Đêm</th>
+                <th style="width: 120px;" class="text-center">Sức Chứa</th>
+                <th>Tiện Nghi Sẵn Có</th>
+                <th class="text-center" style="width: 120px;">Thao tác</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                int index = 1;
+                foreach (var item in Model)
+                {
+                    <tr>
+                        <td class="text-center fw-bold text-secondary">@index</td>
+                        <td>
+                            <span class="badge-hotel">
+                                <i class="fas fa-hotel me-1"></i> @(item.Property?.Name ?? "Chưa gán")
+                            </span>
+                        </td>
+                        <td>
+                            <strong class="text-dark fs-6">@item.RoomType</strong>
+                            <small class="text-muted d-block">Tổng số phòng trống: @item.TotalRooms phòng</small>
+                        </td>
+                        <td class="text-end">
+                            <span class="price-text">@string.Format("{0:N0}", item.BasePrice) đ</span>
+                        </td>
+                        <td class="text-center">
+                            <span class="badge bg-light text-dark border"><i class="fas fa-users me-1"></i>@item.Capacity người</span>
+                        </td>
+                        <td>
+                            @if (!string.IsNullOrEmpty(item.Amenities))
+                            {
+                                var list = item.Amenities.Split(',');
+                                foreach (var amenity in list)
+                                {
+                                    if (!string.IsNullOrWhiteSpace(amenity))
+                                    {
+                                        <span class="badge-amenity">
+                                            <i class="fas fa-snowflake text-info me-1"></i> @amenity.Trim()
+                                        </span>
+                                    }
+                                }
+                            }
+                        </td>
+                        <td class="text-center">
+                            <div class="d-flex justify-content-center gap-2">
+                                <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-info" style="border-radius: 8px; padding: 6px 10px;" title="Chỉnh sửa loại phòng">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+
+                                <form asp-action="Delete" asp-route-id="@item.Id" method="post" onsubmit="return confirm('Bạn có chắc muốn xóa loại phòng này không?');" style="display:inline;">
+                                    <button type="submit" class="btn btn-sm btn-outline-danger" style="border-radius: 8px; padding: 6px 10px;" title="Xóa">
+                                        <i class="fas fa-trash-alt"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </td>
+                    </tr>
+                    index++;
+                }
+            }
+            else
+            {
+                <tr>
+                    <td colspan="7" class="text-center text-muted py-5">
+                        <i class="fas fa-bed d-block fs-2 mb-3 text-secondary"></i>
+                        Khách sạn chưa cấu hình phòng nào. Nhấn "Thêm Loại Phòng Mới" ngay!
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
