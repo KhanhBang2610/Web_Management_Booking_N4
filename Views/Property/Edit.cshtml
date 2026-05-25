@@ -1,0 +1,165 @@
+@model Web_Management_Booking_N4.Models.Property
+
+@{
+    ViewData["Title"] = "Chỉnh Sửa Khách Sạn";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .page-header {
+        border-bottom: 2px dashed #caf0f8;
+        padding-bottom: 15px;
+        margin-bottom: 30px;
+    }
+
+    .form-card {
+        background: white;
+        border-radius: 16px;
+        border: 1px solid #e2e8f0;
+        box-shadow: 0 4px 15px rgba(0, 119, 182, 0.05);
+        padding: 30px;
+        max-width: 750px;
+    }
+
+    .form-label {
+        color: #03045e;
+        font-weight: 600;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .form-control-ocean {
+        border: 1px solid #cbd5e1;
+        border-radius: 10px;
+        padding: 12px 15px;
+        font-size: 14px;
+        transition: all 0.3s;
+    }
+
+    .form-control-ocean:focus {
+        border-color: #00b4d8;
+        box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+        outline: none;
+    }
+
+    .btn-ocean-submit {
+        background: linear-gradient(135deg, #0284c7 0%, #0ea5e9 100%);
+        color: white;
+        border: none;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-weight: 600;
+        transition: all 0.3s;
+    }
+
+    .btn-ocean-submit:hover {
+        background: linear-gradient(135deg, #0369a1 0%, #0284c7 100%);
+        color: white;
+        box-shadow: 0 4px 15px rgba(14, 165, 233, 0.2);
+    }
+
+    .btn-ocean-cancel {
+        background-color: #f1f5f9;
+        color: #475569;
+        border: 1px solid #e2e8f0;
+        padding: 12px 25px;
+        border-radius: 10px;
+        font-weight: 500;
+        transition: all 0.3s;
+    }
+
+    .btn-ocean-cancel:hover {
+        background-color: #e2e8f0;
+        color: #1e293b;
+    }
+
+    .text-danger-ocean {
+        font-size: 12px;
+        color: #ef4444;
+        margin-top: 4px;
+        font-weight: 500;
+    }
+</style>
+
+<div class="page-header">
+    <h2 class="fw-bold m-0" style="color: #0284c7 !important;">
+        <i class="fas fa-edit me-2"></i>Chỉnh Sửa Cơ Sở Lưu Trú
+    </h2>
+    <p class="text-muted m-0 small">Cập nhật thông tin chi tiết và hình ảnh của khách sạn thuộc hệ thống.</p>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="form-card w-100">
+        <form asp-action="Edit" method="post">
+            @Html.AntiForgeryToken()
+
+            <input type="hidden" asp-for="Id" />
+            <input type="hidden" asp-for="OwnerId" />
+            <input type="hidden" asp-for="CreatedAt" />
+
+            <div asp-validation-summary="ModelOnly" class="text-danger mb-3 small fw-bold"></div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label asp-for="LocationId" class="form-label">Thuộc Địa Điểm / Khu vực</label>
+                    <select asp-for="LocationId" class="form-control form-control-ocean w-100 form-select" asp-items="ViewBag.LocationId">
+                        <option value="">-- Chọn Tỉnh / Thành phố --</option>
+                    </select>
+                    <span asp-validation-for="LocationId" class="text-danger-ocean d-block"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Name" class="form-label">Tên Khách Sạn / Resort</label>
+                    <input asp-for="Name" class="form-control form-control-ocean w-100" autocomplete="off" />
+                    <span asp-validation-for="Name" class="text-danger-ocean d-block"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Img" class="form-label">Đường dẫn hình ảnh khách sạn (URL)</label>
+                <input asp-for="Img" class="form-control form-control-ocean w-100" />
+                <span asp-validation-for="Img" class="text-danger-ocean d-block"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label asp-for="StarRating" class="form-label">Xếp Hạng Tiêu Chuẩn (Sao)</label>
+                    <select asp-for="StarRating" class="form-control form-control-ocean w-100 form-select">
+                        <option value="">-- Chọn số sao --</option>
+                        <option value="1">1 Sao</option>
+                        <option value="2">2 Sao</option>
+                        <option value="3">3 Sao</option>
+                        <option value="4">4 Sao</option>
+                        <option value="5">5 Sao</option>
+                    </select>
+                    <span asp-validation-for="StarRating" class="text-danger-ocean d-block"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="Address" class="form-label">Địa chỉ chi tiết</label>
+                    <input asp-for="Address" class="form-control form-control-ocean w-100" />
+                    <span asp-validation-for="Address" class="text-danger-ocean d-block"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Description" class="form-label">Giới thiệu ngắn về khách sạn</label>
+                <textarea asp-for="Description" class="form-control form-control-ocean w-100" rows="4"></textarea>
+                <span asp-validation-for="Description" class="text-danger-ocean d-block"></span>
+            </div>
+
+            <div class="d-flex justify-content-end gap-3 pt-3 border-top" style="border-color: #f1f5f9 !important;">
+                <a asp-action="Index" class="btn btn-ocean-cancel">
+                    <i class="fas fa-arrow-left me-1"></i> Hủy thay đổi
+                </a>
+                <button type="submit" class="btn btn-ocean-submit">
+                    <i class="fas fa-check-circle me-1"></i> Cập Nhật Khách Sạn
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

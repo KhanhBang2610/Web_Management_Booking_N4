@@ -1,0 +1,70 @@
+@model IEnumerable<Web_Management_Booking_N4.Models.User>
+
+@{
+    ViewData["Title"] = "Quản Lý Thành Viên";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .page-header { border-bottom: 2px dashed #caf0f8; padding-bottom: 15px; margin-bottom: 30px; }
+    .table-responsive { background: white; border-radius: 16px; padding: 15px; }
+    .ocean-table th { background-color: #f1f5f9 !important; color: #03045e !important; font-weight: 600; padding: 15px 12px; }
+    .ocean-table td { padding: 15px 12px; vertical-align: middle; color: #334155; }
+    .role-badge { padding: 4px 10px; border-radius: 6px; font-weight: 600; font-size: 12px; }
+    .role-admin { background-color: #fee2e2; color: #991b1b; border: 1px solid #fca5a5; }
+    .role-customer { background-color: #e0f2fe; color: #0369a1; border: 1px solid #7dd3fc; }
+</style>
+
+<div class="page-header">
+    <h2 class="fw-bold m-0" style="color: #0077b6 !important;"><i class="fas fa-users me-2"></i>Hồ Sơ Thành Viên (Users)</h2>
+    <p class="text-muted m-0 small">Danh sách khách hàng đăng ký tài khoản trải nghiệm dịch vụ trên hệ thống Website.</p>
+</div>
+
+<div class="table-responsive shadow-sm">
+    <table class="table ocean-table table-hover align-middle">
+        <thead>
+            <tr>
+                <th style="width: 70px;" class="text-center">User ID</th>
+                <th>Họ Tên Thành Viên</th>
+                <th>Địa Chỉ Email</th>
+                <th style="width: 150px;">Số Điện Thoại</th>
+                <th style="width: 140px;" class="text-center">Vai Trò (Role)</th>
+                <th style="width: 180px;" class="text-center">Ngày Tham Gia</th>
+            </tr>
+        </thead>
+        <tbody>
+            @if (Model != null && Model.Any())
+            {
+                foreach (var user in Model)
+                {
+                    <tr>
+                        <td class="text-center fw-bold text-secondary">#@user.Id</td>
+                        <td>
+                            <div class="d-flex align-items-center gap-2">
+                                <div class="bg-secondary text-white rounded-circle text-center fw-bold" style="width: 32px; height: 32px; line-height: 32px;">
+                                    @user.FullName.Substring(0, 1).ToUpper()
+                                </div>
+                                <strong class="text-dark">@user.FullName</strong>
+                            </div>
+                        </td>
+                        <td class="text-muted">@user.Email</td>
+                        <td>@(string.IsNullOrEmpty(user.Phone) ? "Chưa cung cấp" : user.Phone)</td>
+                        <td class="text-center">
+                            @if (user.Role?.ToUpper() == "ADMIN")
+                            {
+                                <span class="role-badge role-admin"><i class="fas fa-user-shield me-1"></i>Admin</span>
+                            }
+                            else
+                            {
+                                <span class="role-badge role-customer"><i class="fas fa-user me-1"></i>Khách hàng</span>
+                            }
+                        </td>
+                        <td class="text-center text-secondary small">
+                            @(user.CreatedAt.HasValue ? user.CreatedAt.Value.ToString("dd/MM/yyyy HH:mm") : "--")
+                        </td>
+                    </tr>
+                }
+            }
+        </tbody>
+    </table>
+</div>

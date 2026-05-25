@@ -11,6 +11,8 @@ public partial class Property
 
     public string Address { get; set; } = null!;
 
+    public string? Img { get; set; }
+
     public string? Description { get; set; }
 
     public int? StarRating { get; set; }

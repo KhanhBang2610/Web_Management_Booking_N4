@@ -17,6 +17,8 @@ public partial class Room
 
     public int TotalRooms { get; set; }
 
+    public string? Amenities { get; set; }
+
     public DateTime? CreatedAt { get; set; }
 
     public virtual ICollection<Booking> Bookings { get; set; } = new List<Booking>();

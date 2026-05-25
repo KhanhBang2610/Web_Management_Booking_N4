@@ -1,0 +1,105 @@
+@model Web_Management_Booking_N4.Models.Room
+
+@{
+    ViewData["Title"] = "Thêm Loại Phòng Mới";
+    Layout = "~/Views/Shared/_AdminLayout.cshtml";
+}
+
+<style>
+    .page-header { border-bottom: 2px dashed #caf0f8; padding-bottom: 15px; margin-bottom: 30px; }
+    .form-card { background: white; border-radius: 16px; border: 1px solid #e2e8f0; padding: 30px; max-width: 780px; }
+    .form-label { color: #03045e; font-weight: 600; font-size: 14px; margin-bottom: 8px; }
+    .form-control-ocean { border: 1px solid #cbd5e1; border-radius: 10px; padding: 12px 15px; font-size: 14px; }
+    .quick-preset-box { background-color: #f8fafc; border: 1px dashed #cbd5e1; border-radius: 12px; padding: 15px; margin-bottom: 25px; }
+    .preset-btn { background: white; border: 1px solid #00b4d8; color: #0077b6; padding: 6px 12px; border-radius: 8px; font-size: 13px; font-weight: 500; cursor: pointer; margin-right: 8px; margin-bottom: 8px; }
+    .preset-btn:hover { background-color: #00b4d8; color: white; }
+    .btn-ocean-submit { background: linear-gradient(135deg, #0077b6 0%, #00b4d8 100%); color: white; border: none; padding: 12px 25px; border-radius: 10px; font-weight: 600; }
+    .btn-ocean-submit:hover { background: linear-gradient(135deg, #03045e 0%, #0077b6 100%); color: white; }
+    .btn-ocean-cancel { background-color: #f1f5f9; color: #475569; border: 1px solid #e2e8f0; padding: 12px 25px; border-radius: 10px; }
+    .text-danger-ocean { font-size: 12px; color: #ef4444; }
+</style>
+
+<div class="page-header">
+    <h2 class="fw-bold m-0" style="color: #0077b6 !important;"><i class="fas fa-plus-circle me-2"></i>Thêm Mới Loại Phòng</h2>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="form-card w-100">
+        
+        <div class="quick-preset-box">
+            <h6 class="fw-bold mb-2" style="color: #03045e;"><i class="fas fa-magic me-2 text-info"></i>Chọn nhanh mẫu phòng theo yêu cầu:</h6>
+            <div class="d-flex flex-wrap">
+                <button type="button" class="preset-btn" onclick="applyPreset('Phòng 2 người, view ban công nhìn ra biển', 2, 'Máy lạnh, Ban công ngắm biển, Giường đôi lớn, Wifi miễn phí', 1500000, 5)">
+                    🌊 Phòng 2 người view biển + Máy lạnh
+                </button>
+                <button type="button" class="preset-btn" onclick="applyPreset('Phòng dành cho gia đình đi du lịch', 4, 'Máy lạnh, 2 Giường lớn, Tủ lạnh mini, Smart TV', 2500000, 3)">
+                    👨‍👩‍👧‍👦 Phòng gia đình + Máy lạnh
+                </button>
+                <button type="button" class="preset-btn" onclick="applyPreset('Phòng Tập Thể Đoàn Thượng Hạng (Dưới 10 người)', 10, 'Máy lạnh công suất lớn, Giường tầng, Tủ khóa cá nhân, 2 Nhà vệ sinh riêng', 4500000, 2)">
+                    🏢 Phòng đoàn dưới 10 người + Máy lạnh
+                </button>
+            </div>
+        </div>
+
+        <form asp-action="Create" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="mb-4">
+                <label asp-for="PropertyId" class="form-label">Chọn Khách Sạn Trực Thuộc</label>
+                <select asp-for="PropertyId" class="form-control form-control-ocean w-100 form-select" asp-items="ViewBag.PropertyId">
+                    <option value="">-- Chọn Cơ Sở Lưu Trú --</option>
+                </select>
+                <span asp-validation-for="PropertyId" class="text-danger-ocean"></span>
+            </div>
+
+            <div class="row">
+                <div class="col-md-7 mb-4">
+                    <label asp-for="RoomType" class="form-label">Tên / Loại Phòng</label>
+                    <input asp-for="RoomType" id="txtRoomType" class="form-control form-control-ocean w-100" placeholder="Nhập tên phòng..." autocomplete="off" />
+                    <span asp-validation-for="RoomType" class="text-danger-ocean"></span>
+                </div>
+
+                <div class="col-md-5 mb-4">
+                    <label asp-for="Capacity" class="form-label">Sức Chứa Tối Đa (Người)</label>
+                    <input asp-for="Capacity" id="txtCapacity" type="number" class="form-control form-control-ocean w-100" min="1" />
+                    <span asp-validation-for="Capacity" class="text-danger-ocean"></span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6 mb-4">
+                    <label asp-for="BasePrice" class="form-label">Giá Phòng / Đêm (VNĐ)</label>
+                    <input asp-for="BasePrice" id="txtPrice" type="number" class="form-control form-control-ocean w-100" min="0" />
+                    <span asp-validation-for="BasePrice" class="text-danger-ocean"></span>
+                </div>
+
+                <div class="col-md-6 mb-4">
+                    <label asp-for="TotalRooms" class="form-label">Số Lượng Phòng Trống Thực Tế</label>
+                    <input asp-for="TotalRooms" id="txtTotal" type="number" class="form-control form-control-ocean w-100" min="1" />
+                    <span asp-validation-for="TotalRooms" class="text-danger-ocean"></span>
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <label asp-for="Amenities" class="form-label">Danh sách tiện nghi</label>
+                <textarea asp-for="Amenities" id="txtAmenities" class="form-control form-control-ocean w-100" rows="3" placeholder="Phân cách bằng dấu phẩy..."></textarea>
+                <span asp-validation-for="Amenities" class="text-danger-ocean"></span>
+            </div>
+
+            <div class="d-flex justify-content-end gap-3 pt-3 border-top">
+                <a asp-action="Index" class="btn btn-ocean-cancel text-decoration-none"> Quay lại</a>
+                <button type="submit" class="btn btn-ocean-submit"><i class="fas fa-save me-1"></i> Lưu Cấu Hình</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    function applyPreset(roomType, capacity, amenities, price, total) {
+        document.getElementById('txtRoomType').value = roomType;
+        document.getElementById('txtCapacity').value = capacity;
+        document.getElementById('txtAmenities').value = amenities;
+        document.getElementById('txtPrice').value = price;
+        document.getElementById('txtTotal').value = total;
+    }
+</script>
