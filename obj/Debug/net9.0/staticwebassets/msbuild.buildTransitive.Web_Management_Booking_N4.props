@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="..\buildMultiTargeting\Web_Management_Booking_N4.props" />
-</Project>
