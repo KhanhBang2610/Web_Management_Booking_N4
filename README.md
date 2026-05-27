@@ -65,17 +65,20 @@ Dự án Website quản lý đặt phòng khách sạn, căn hộ ở các thàn
 ├── Program.cs           # Điểm khởi đầu ứng dụng (Cấu hình Services, Middleware, Routing)
 └── Web_Management_Booking_N4.csproj # File quản lý package NuGet và cấu hình Project .NET
 
+```
 
-Để mở được giao diện của ASP NEt core để thực hiện đồ án:
-1. Pull code từ github về máy (gõ lệnh git clone <link github> trong cmd)
-2. Gõ lệnh: dotnet --list-sdks trên terminal dự án để coi phiên bản net SDK của máy mình
+## Để mở được giao diện của ASP NEt core để thực hiện đồ án:
+
+1. Pull code từ github về máy: ``git clone <link github> trong cmd``
+2. Check phiên bản net SDK máy local: ``dotnet --list-sdks``
 (ví dụ nếu hiện số 9 đầu tiên, thì nhập 3 lệnh sau để chạy:
-dotnet add package Microsoft.EntityFrameworkCore --version 9.0.0
-dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.0
-dotnet add package Pomelo.EntityFrameworkCore.MySql --version 9.0.0
-- Note: nếu hiện số 8 thì chỉ cần thay số 9 thành 8 rồi chạy là được.
-3.Gõ lệnh: dotnet tool install --global dotnet-ef --version 9.0.0 (máy dùng phiên bản nào thì thay thành số đó)
-4. Vào database My SQL workbench tạo database và tạo từng bảng bằng lệnh truy vấn:
+``dotnet add package Microsoft.EntityFrameworkCore --version 9.0.0``
+``dotnet add package Microsoft.EntityFrameworkCore.Design --version 9.0.0``
+``dotnet add package Pomelo.EntityFrameworkCore.MySql --version 9.0.0``
+*Note: nếu hiện số 8 thì chỉ cần thay số 9 thành 8 rồi chạy là được.
+3. Tải phiên bản: ``dotnet tool install --global dotnet-ef --version 9.0.0`` (máy dùng phiên bản nào thì thay thành số đó)
+4. Tạo database My SQL workbench mẫu:
+```
 -- 1. Tạo Database
 CREATE DATABASE IF NOT EXISTS agoda_clone_db;
 USE agoda_clone_db;
@@ -151,11 +154,8 @@ CREATE TABLE IF NOT EXISTS reviews (
     FOREIGN KEY (property_id) REFERENCES properties(id) ON DELETE CASCADE,
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE SET NULL
 );
-Hiện dấu tích xanh hết là đúng.
+```
 
 4. chạy lệnh kết nối database trong terminal:
-dotnet ef dbcontext scaffold "server=localhost;port=3306;database=agoda_clone_db;user=root;password=1234" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data --context ApplicationDbContext --force 
-
-nhớ đổi user và password tùy máy mỗi người thiết lập ban đầu nha. 
-
-Bị cấn chỗ nào thì cứ nhắn lên group nhóm 4 hỏi tui! 
+``dotnet ef dbcontext scaffold "server=localhost;port=3306;database=agoda_clone_db;user=root;password=1234" Pomelo.EntityFrameworkCore.MySql -o Models --context-dir Data --context ApplicationDbContext --force``
+*Note: nhớ đổi user và password tùy máy mỗi người thiết lập ban đầu.
