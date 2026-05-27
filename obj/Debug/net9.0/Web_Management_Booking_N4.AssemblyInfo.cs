@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Web_Management_Booking_N4")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+d13e60de8d0e05a79e3b835d89e104c07fd2dacb")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1fdf2c9d71402710d0da8a479622ebef4a344ff2")]
 [assembly: System.Reflection.AssemblyProductAttribute("Web_Management_Booking_N4")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Web_Management_Booking_N4")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
